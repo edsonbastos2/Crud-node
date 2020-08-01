@@ -1,0 +1,45 @@
+<%- include('../../partials/header.ejs')%>
+<%- include('../../partials/navbar.ejs')%>
+  <div class="container">
+    <h2>Lista de empresas</h2>
+    <a class="btn btn-primary mt-3" href="/admin/empresas/new">Cadastrar nova empresa</a>
+    <table class="table table-striped mt-5">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>NOME</th>
+          <th>ENDERECO</th>
+          <th>CNPJ</th>
+          <th>AÇÕES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% empresas.forEach( empresa => {%>
+          <tr>
+            <td><%= empresa.id %></td>
+            <td><%= empresa.nome %></td>
+            <td><%= empresa.endereco %></td>
+            <td><%= empresa.cnpj %></td>
+            <td>
+              <button class="btn btn-warning">Editar</button>
+              <form action="/empresas/delete" method="POST" style="display: inline;" onsubmit="confirmarDelete(event, this)">
+                <input type="hidden" name="id" value="<%= empresa.id%>">
+                <button class="btn btn-danger">Deletar</button>
+              </form>
+            </td>
+          </tr>
+        <%})%>
+      </tbody>
+    </table>
+  </div>
+<%- include('../../partials/footer.ejs')%>
+
+<script>
+  function confirmarDelete(event, form){
+    event.preventDefault()
+    let decision = confirm('Você tem certeza');
+    if(decision){
+      form.submit();
+    }
+  }
+</script>
